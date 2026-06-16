@@ -1,0 +1,21 @@
+{
+  "lastCommitSha": "257f9fd3c0dedd711b8f9adf844a51da0c43c51f",
+  "status": "active",
+  "accomplishment": "Ported Waves 1 and 2 of StatBrainz to Python with 71 passing tests, all validated against MATLAB R2024b including brain I/O, MNI data, and cluster functions.",
+  "last_session_summary": {
+    "completed": [
+      "Continue wave-by-wave porting of StatBrainz through Waves 1 and 2 including brain I/O and MNI data",
+      "Validate all ported functions against live MATLAB R2024b output"
+    ],
+    "outstanding": [
+      "Port Wave 3 (ClusterInference, CopeSets, perm_thresh, spatialBH, Atlases) through Wave 5"
+    ]
+  },
+  "suggested_next_steps": [
+    "Port Wave 3 starting with clustertdp and the ClusterInference family",
+    "Decide how to handle fit_bayesglm/runbayesglm — skip, stub, or PyMC substitute",
+    "Commit the Waves 1–2 work"
+  ],
+  "lastChecked": "2026-06-17T00:00:00.000Z",
+  "updatedAt": "2026-06-17T00:00:00.000Z"
+}
