@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from statbrainz import inference as inf
+import statbrainz as inf
 
 
 def test_spatialBH_recovers_signal():

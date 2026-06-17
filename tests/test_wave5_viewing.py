@@ -7,8 +7,8 @@ Rendering functions are smoke-tested with the non-interactive Agg backend.
 import numpy as np
 import pytest
 
-from statbrainz import viewing as vw
-from statbrainz.brain import imgload
+import statbrainz as vw
+from statbrainz import imgload
 
 
 # ----- pure helpers (vs MATLAB) -------------------------------------------

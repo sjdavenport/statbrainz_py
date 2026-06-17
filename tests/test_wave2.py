@@ -6,7 +6,7 @@ Numeric expectations cross-checked against MATLAB R2024b.
 import numpy as np
 import pytest
 
-from statbrainz import statistics as st
+import statbrainz as st
 
 
 # ----- kernels -------------------------------------------------------------

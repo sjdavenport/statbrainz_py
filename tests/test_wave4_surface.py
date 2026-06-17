@@ -7,7 +7,7 @@ MATLAB R2024b. MATLAB faces are 1-based, so they are converted to 0-based here.
 import numpy as np
 import pytest
 
-from statbrainz import surface as sf
+import statbrainz as sf
 
 
 @pytest.fixture

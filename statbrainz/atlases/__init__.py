@@ -1,5 +1,8 @@
-"""StatBrainz atlases functions (ported from MATLAB)."""
+"""Auto-generated package init (re-exports the function files)."""
 
-from .atlases import getBrainRegionNames, get_mask, getregion, atlas_masks
+from .atlas_masks import atlas_masks
+from .getBrainRegionNames import getBrainRegionNames
+from .get_mask import get_mask
+from .getregion import getregion
 
-__all__ = ["getBrainRegionNames", "get_mask", "getregion", "atlas_masks"]
+__all__ = ['atlas_masks', 'getBrainRegionNames', 'get_mask', 'getregion']

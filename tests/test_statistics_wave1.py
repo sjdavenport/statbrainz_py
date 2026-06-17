@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from scipy import stats
 
-from statbrainz import statistics as sb
+import statbrainz as sb
 
 
 def test_apower_default_sqrt():

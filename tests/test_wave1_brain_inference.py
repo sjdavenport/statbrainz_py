@@ -6,7 +6,9 @@ Expected values cross-checked against MATLAB R2024b output.
 import numpy as np
 import pytest
 
-from statbrainz import brain, statistics as st, inference as inf
+import statbrainz as brain
+import statbrainz as st
+import statbrainz as inf
 
 
 # ----- brain.vec_data / unwrap (column-major faithful) ---------------------

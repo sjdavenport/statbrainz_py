@@ -6,12 +6,13 @@ Expectations cross-checked against MATLAB R2024b.
 import numpy as np
 import pytest
 
-from statbrainz import atlases as at
+import statbrainz as at
 
 
 def test_getBrainRegionNames_matches_matlab():
     import os
-    loc = os.path.join(at.atlases._atlas_dir(), "HarvardOxford")
+    from statbrainz.Atlases._shared import _atlas_dir
+    loc = os.path.join(_atlas_dir(), "HarvardOxford")
     names = at.getBrainRegionNames(os.path.join(loc, "HarvardOxford-Cortical.xml"))
     assert len(names) == 48
     assert names[0] == "Frontal Pole"

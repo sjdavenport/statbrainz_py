@@ -6,7 +6,7 @@ Geometry cross-checked against MATLAB R2024b (fsaverage5 white).
 import numpy as np
 import pytest
 
-from statbrainz import surface as sf
+import statbrainz as sf
 
 
 def test_loadsrf_fs5_white_matches_matlab():

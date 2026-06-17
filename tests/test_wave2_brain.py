@@ -6,8 +6,8 @@ Expectations cross-checked against MATLAB R2024b.
 import numpy as np
 import pytest
 
-from statbrainz import brain
-from statbrainz.statistics import convind
+import statbrainz as brain
+from statbrainz import convind
 
 
 def test_imgload_mnimask():

@@ -8,7 +8,7 @@ Here we check structural invariants that must hold for any input.
 import numpy as np
 import pytest
 
-from statbrainz import inference as inf
+import statbrainz as inf
 
 
 def test_fdr_crs_shapes_and_types():

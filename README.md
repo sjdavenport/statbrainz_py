@@ -23,58 +23,85 @@ uv pip install -e ".[test]"    # + pytest
 Core dependencies: `numpy`, `scipy`, `nibabel`. Visualization (`statbrainz.viewing`
 rendering) requires the optional `viz` extra.
 
-## Modules
+## Package layout
 
-| Module | What's in it |
-|---|---|
-| `statbrainz.statistics` | transforms, distributions, Gaussian kernels, separable smoothing (`fast_conv`), mask morphology, voxelwise t-stats (`mvtstat`) |
-| `statbrainz.brain` | voxel vectorization (`vec_data`/`unwrap`), NIfTI I/O (`imgload`/`imgsave`), MNI mask helpers |
-| `statbrainz.inference` | FDR/MHT, connected-component clusters, TFCE, cluster-TDP bounds, CoPE sets, permutation thresholds, spin test |
-| `statbrainz.surface` | FreeSurfer/GIfTI I/O, edge-based smoothing, adjacency, resampling, surface noise/spin |
-| `statbrainz.atlases` | Harvard-Oxford region masks and coordinate lookups |
-| `statbrainz.viewing` | image-montage helpers + matplotlib rendering |
+The package mirrors the MATLAB StatBrainz folder structure **one function per
+file**, with each `.py` named exactly as the corresponding MATLAB `.m` (folder
+names with spaces become underscores so they are importable):
+
+```
+statbrainz/
+  Statistics_Functions/        apower.py, convind.py, gen_noise.py, ...
+    ImageOperations/           FWHM2sigma.py, fast_conv.py, doubleim.py
+      Kernels/                 Gker.py, GkerMV.py, ...
+    Mask_functions/            nan2zero.py, dilate_mask.py, mask_bndry.py, ...
+    Signal_generation/         square_signal.py
+    Stats_functions/           mvtstat.py, lcdf.py, tstat2pval.py, ...
+    Aux_functions/             Plotting/, SystemFunctions/
+  Brain_Functions/             getMNImask.py, vec_data.py, voxinMNI.py, ...
+  ImageViewing/                imgload.py, viewdata.py, combine_brains.py, ...
+  Inference/
+    MHT/                       fdrBH.py, imBH.py, spatialBH.py, ...
+    ClusterInference/          numOfConComps.py, cluster_im.py,
+      TFCE/                    tfce.py, voxLCE.py, LCE.py
+      ClusterTDP/              clustertp_lowerbound.py, clustertdp.py, ...
+    CopeSets/                  fdr_crs.py
+    TDP_inference/templates/   linear_template.py, get_pivotal_stats.py, ...
+    FirstLevel/  Resampling/  Permutation/
+  Surface/                     loadsrf.py, smooth_surface.py, spin_surface.py, ...
+    SurfStat/                  SurfStatEdg.py, SurfStatSmooth.py
+    ReadSurfaceFiles/          fs2surf.py, read_fs_geometry.py, gifti/, freesurferfiles/
+  Atlases/                     get_mask.py, getregion.py, atlas_masks.py, ...
+```
+
+A function can be imported from its mirror path, **or** flat from the top level:
+
+```python
+from statbrainz.Statistics_Functions.Stats_functions.mvtstat import mvtstat
+from statbrainz import mvtstat        # same function, flat convenience API
+```
 
 ## Quick start
 
 ```python
 import numpy as np
-from statbrainz import statistics as st, brain, inference as inf, atlases as at
+import statbrainz as sb
 
 # --- smoothing + voxelwise t-statistic -----------------------------------
 rng = np.random.default_rng(0)
 data = rng.standard_normal((20, 20, 30))      # [x, y, subjects]
 data[5:10, 5:10, :] += 1.5                     # plant a signal blob
-smoothed, ss = st.fast_conv(data, FWHM=3, D=3)
-tstat, mean, sd, cohensd = st.mvtstat(data)
+smoothed, ss = sb.fast_conv(data, FWHM=3, D=3)
+tstat, mean, sd, cohensd = sb.mvtstat(data)
 
 # --- FDR control ----------------------------------------------------------
 pvals = np.array([0.001, 0.2, 0.04, 0.5])
-rej_ind, n_rej, locs, maxp = inf.fdrBH(pvals, alpha=0.1)
+rej_ind, n_rej, locs, maxp = sb.fdrBH(pvals, alpha=0.1)
 
 # --- cluster inference + TDP bounds --------------------------------------
-n_clusters, occ, sizes, idx = inf.numOfConComps(tstat, thresh=2, connectivity_criterion=8)
-tfce_img = inf.tfce(tstat, H=2, E=0.5)
+n_clusters, occ, sizes, idx = sb.numOfConComps(tstat, thresh=2, connectivity_criterion=8)
+tfce_img = sb.tfce(tstat, H=2, E=0.5)
 
 # --- CoPE confidence sets for {mu > thresh} ------------------------------
-lower, upper = inf.fdr_crs(data, thresh=0.5, alpha_quant=0.05)
+lower, upper = sb.fdr_crs(data, thresh=0.5, alpha_quant=0.05)
 
 # --- MNI mask + atlas region ---------------------------------------------
-mni = brain.imgload("MNImask")                 # bundled 2mm MNI mask
-mask, indices, names = at.get_mask("HOc", "Frontal Pole")
-region_names = at.getregion([39, 82, 23])      # 1-based voxel -> region name
+mni = sb.imgload("MNImask")                    # bundled 2mm MNI mask
+mask, indices, names = sb.get_mask("HOc", "Frontal Pole")
+region_names = sb.getregion([39, 82, 23])      # 1-based voxel -> region name
 ```
 
 Surface example:
 
 ```python
 import numpy as np
-from statbrainz import surface as sf
+import statbrainz as sb
 
-srf = sf.fs2surf("lh.white")                   # or gifti2surf(...)
-data = sf.srf_noise(srf, FWHM=10, nsubj=1)     # smoothed surface noise
-smoothed = sf.smooth_surface(srf, data, FWHM=5)
-adj = sf.adjacency_matrix(srf)
-n_clusters, *_ = sf.graph_cc(data, thresh=0, adj_matrix=adj)
+srf = sb.fs2surf("lh.white")                   # or gifti2surf(...)
+data = sb.srf_noise(srf, FWHM=10, nsubj=1)     # smoothed surface noise
+smoothed = sb.smooth_surface(srf, data, FWHM=5)
+adj = sb.adjacency_matrix(srf)
+n_clusters, *_ = sb.graph_cc(data, thresh=0, adj_matrix=adj)
 ```
 
 ## Conventions / notes

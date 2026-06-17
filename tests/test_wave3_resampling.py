@@ -3,7 +3,7 @@
 import numpy as np
 import pytest
 
-from statbrainz import inference as inf
+import statbrainz as inf
 
 
 def test_perm_thresh_runs_and_thresholds():

@@ -6,7 +6,8 @@ gmcdf/filesindir cross-checked against MATLAB R2024b.
 import numpy as np
 import pytest
 
-from statbrainz import statistics as st, inference as inf
+import statbrainz as st
+import statbrainz as inf
 
 
 def test_gmcdf_matches_matlab():

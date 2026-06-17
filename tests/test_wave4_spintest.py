@@ -2,7 +2,8 @@
 
 import numpy as np
 
-from statbrainz import inference as inf, surface as sf
+import statbrainz as inf
+import statbrainz as sf
 
 
 def _octa_sphere():
