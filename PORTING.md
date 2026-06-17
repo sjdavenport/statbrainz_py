@@ -1,3 +1,18 @@
+# Package structure (updated)
+
+statbrainz now mirrors the MATLAB StatBrainz package 1:1: one function per file,
+each .py named exactly as the MATLAB .m, in the same folder (spaces -> underscores
+so the folders are importable Python packages). Every public function is also
+re-exported flat at the top level (e.g. `statbrainz.mvtstat`).
+
+Deep import:  from statbrainz.Statistics_Functions.Stats_functions.mvtstat import mvtstat
+Flat import:  from statbrainz import mvtstat
+
+Private shared helpers live in per-folder `_shared.py`; the two non-MATLAB
+helpers (make_srf, viewthresh_image) live in `statbrainz/_helpers.py`.
+
+---
+
 # StatBrainz MATLAB → Python porting map
 
 Source: `/Users/samd/Documents/Code/Packages/Matlab/StatBrainz/`
