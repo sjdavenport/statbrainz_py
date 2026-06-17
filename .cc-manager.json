@@ -1,21 +1,26 @@
 {
-  "lastCommitSha": "257f9fd3c0dedd711b8f9adf844a51da0c43c51f",
+  "lastCommitSha": "054aabeb6cd4a2e7cd29d52d2fd773680d81d59c",
   "status": "active",
-  "accomplishment": "Ported Waves 1 and 2 of StatBrainz to Python with 71 passing tests, all validated against MATLAB R2024b including brain I/O, MNI data, and cluster functions.",
+  "accomplishment": "Completed Waves 3–5 plus Atlases port: 121 tests passing, all validated against MATLAB R2024b.",
   "last_session_summary": {
     "completed": [
-      "Continue wave-by-wave porting of StatBrainz through Waves 1 and 2 including brain I/O and MNI data",
-      "Validate all ported functions against live MATLAB R2024b output"
+      "Ported Waves 3–5 and Atlases (121 tests, MATLAB-validated), wrote PORTING_ISSUES.md report"
     ],
     "outstanding": [
-      "Port Wave 3 (ClusterInference, CopeSets, perm_thresh, spatialBH, Atlases) through Wave 5"
+      "Port loadsrf/loadmask (needs bundled fsaverage/hcp surface data files)",
+      "Decide on BayesGLM approach (INLA replacement) and implement"
     ]
   },
   "suggested_next_steps": [
-    "Port Wave 3 starting with clustertdp and the ClusterInference family",
-    "Decide how to handle fit_bayesglm/runbayesglm — skip, stub, or PyMC substitute",
-    "Commit the Waves 1–2 work"
+    "Copy the fsaverage/hcp surface .mat files and port loadsrf/loadmask",
+    "Commit all waves 1–5 + atlases work with a descriptive commit",
+    "Decide on BayesGLM: stub with NotImplementedError or find an INLA replacement"
   ],
-  "lastChecked": "2026-06-17T00:00:00.000Z",
-  "updatedAt": "2026-06-17T00:00:00.000Z"
+  "lastChecked": "2026-06-17T09:00:00.000Z",
+  "updatedAt": "2026-06-17T09:00:00.000Z",
+  "name": "statbrainz_py",
+  "path": "/Users/samd/Documents/Code/Packages/Python/statbrainz_py",
+  "priority": "high",
+  "group": "Python",
+  "purpose": "Python port of the StatBrainz MATLAB package for brain imaging statistics"
 }

@@ -62,37 +62,60 @@ NOTE: bundled MNI data files copied into statbrainz/data/Volume/: MNImask.nii,
 MNIbrain.nii.gz, MNIbrainmask.nii.gz. (ExData.nii / MNImaskNAN.nii @7MB not yet
 copied — add if a function needs them.)
 
-### Wave 3 — multi-hop / domain logic
-inference/cluster: clustertdp, cluster_tp2tdp, clustertp_lowerbound, ctp_scores,
-fgreedy, LCE, voxLCE, tfce, perm_tfce, real_tfce_clusters, perm_cluster,
-localized_csi, cluster2csv, ctp_extract_score, rkval
-inference/CopeSets (non-display): fdr_crs, fdr_crs_dep, fdr_simul_cs, scopes(loader),
-scopes_lm(loader), sss_cope_sets, srf_fdr_crs, srf_scopes, srf_scb2cope,
-srf_blue_crs, srf_color_crs, srf_redblue_crs
-inference/Permutation: permutation_power, spintest(spin_surface,loader)
-inference/BayesGLM: fit_classicalglm, fit_bayesglm, bayespw, runbayesglm
-  (NOTE: fit_bayesglm wraps external INLA — flag as not-portable / needs discussion)
-atlases: getBrainRegionNames, get_mask, getregion, atlas_masks
+### Wave 3 — multi-hop / domain logic  [STATUS: core DONE — validated vs MATLAB]
+DONE inference/cluster TDP+TFCE: rkval, clustertp_lowerbound, cluster_tp2tdp,
+clustertdp (lowerbound method), tfce, voxLCE, LCE
+DONE inference/MHT: spatialBH, localized_vi
+DONE inference/CopeSets: fdr_crs
+DONE inference/Resampling: perm_thresh (global-max path; mask path needs missing
+lmindices)
 
-### Wave 4 — surface I/O + ops
-surface: read_fs_geometry, freesurfer_read_surf, read_annotation, dpvread,
-fs2surf, gifti2surf, load_gifti, fsannot2mask, loadmask, loadsrf, mgzwrite,
-SurfStatEdg, SurfStatReadSurf, SurfStatReadSurf1, SurfStatSmooth, fs_smooth,
-adjacency_matrix, graph_cc, resample_srf, resample_srf_nn, srf_face_area,
-srf_fwhm2niters, smooth_surface, srf_dilate_mask, srf_contour, srf_noise,
-spin_surface
+NOT PORTABLE (broken / missing upstream deps in the MATLAB source itself):
+- scopes, scopes_lm -> call fastperm/fastperm_mean/fastlmperm/lmthresh2scb,
+  NONE of which exist anywhere in the StatBrainz MATLAB package.
+- fdr_simul_cs -> MATLAB source is incomplete (empty `for`, undefined vars).
+- bh_control, permutation_power, test_ica -> demo SCRIPTS, not functions.
+- clustertdp 'heuristic'/'greedy', ctp_scores, fgreedy, cluster2csv,
+  ctp_extract_score -> dispatch/parse EXTERNAL jobs (fgreedy CLI). Skipped.
+- perm_tfce, real_tfce_clusters, perm_cluster, localized_csi -> TODO (need the
+  permutation harness; revisit after surface so spintest can come too).
 
-### Wave 5 — viewing / GUI (NOT 1:1 — matplotlib/nilearn rewrites, port last)
-statistics/aux: BigFont, animatefun, custom_colormap, mytiles, plotImagesInTile,
-sliderGUI, slidergui3
-brain I/O bridge: imgload, imgsave  (these are I/O, port early in practice via nibabel)
-viewing: add_region, brainmove, colorRegion, combine_brains, overlay_brain,
-overlay_brainslice, peak2circle, viewbrain, viewdata, viewdata2, viewthresh,
-pan3, plot_compact, loadbrains, loadsubs
-viewing/shape_screen: fullscreen, fullscreen2, screenshape, spherescreen,
-squarescreen, surfscreen
-surface plotting: srfplot, srfplot2, newfun(surf4), srfgui, srf_colour
-copesets display: cope_display, srf_cope_display, srf_cope_display2, playcr
+TODO inference/Permutation: spintest (needs spin_surface -> Wave 4)
+TODO inference/BayesGLM: fit_classicalglm, fit_bayesglm, bayespw, runbayesglm
+  (fit_bayesglm wraps external INLA — NOT portable; needs user decision)
+DONE atlases (Harvard-Oxford 2mm bundled in statbrainz/data/Atlases/):
+getBrainRegionNames, get_mask, getregion, atlas_masks — validated vs MATLAB
+(48 cortical regions; Frontal Pole mask sum 15397; getregion lookups match).
+findstrings/capstr (missing from MATLAB pkg) reimplemented inline.
+
+### Wave 4 — surface I/O + ops  [STATUS: core DONE — validated vs MATLAB]
+DONE surface core: SurfStatEdg, SurfStatSmooth, adjacency_matrix, graph_cc,
+srf_face_area, srf_fwhm2niters, smooth_surface, resample_srf, resample_srf_nn
+  (+ make_srf helper; srf is a dict with 0-based faces, nibabel convention)
+DONE surface ops: srf_dilate_mask, srf_contour, srf_noise, spin_surface
+DONE surface I/O (via nibabel): read_fs_geometry, freesurfer_read_surf,
+read_annotation, fsannot2mask, fs2surf, gifti2surf, load_gifti, dpvread
+DONE inference/Permutation: spintest (was deferred — needs spin_surface)
+
+TODO surface (need bundled .mat surface data, same pattern as MNI):
+loadsrf, loadmask  -> load fsaverage/hcp surfaces from BrainImages/Surface/*.mat
+SKIP surface: SurfStatReadSurf / SurfStatReadSurf1 (.obj/.fs readers — nibabel
+covers these formats), mgzwrite (use nibabel mgh writer), fs_smooth (stub)
+
+### Wave 5 — viewing  [STATUS: core DONE — helpers validated vs MATLAB]
+DONE viewing helpers (pure arrays, 1:1, statbrainz.viewing.helpers):
+colorRegion, peak2circle, viewthresh_image, combine_brains, custom_colormap
+DONE viewing render (matplotlib rewrites, NOT 1:1, statbrainz.viewing.display):
+viewthresh, viewdata, viewbrain, overlay_brain
+  (matplotlib is an optional dep — the `viz` extra)
+
+NOT PORTED — interactive GUIs / figure-window shaping with no Python analog:
+brainmove, pan3, viewdata2, sliderGUI, slidergui3, srfgui, fullscreen,
+fullscreen2, screenshape, spherescreen, squarescreen, surfscreen, plot_compact,
+add_region, loadbrains, loadsubs, mytiles, plotImagesInTile, animatefun, BigFont
+TODO (optional, later): surface plotting (srfplot/srfplot2/newfun/srf_colour) and
+cope display (cope_display, srf_cope_display*) — 3D trisurf rendering, would be
+a nilearn/matplotlib rewrite; not yet done.
 
 ## Not directly portable (flag for discussion)
 - fit_bayesglm / runbayesglm — wrap external INLA (R/C library). No clean Python equiv.
