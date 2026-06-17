@@ -1,23 +1,23 @@
 {
-  "lastCommitSha": "054aabeb6cd4a2e7cd29d52d2fd773680d81d59c",
+  "lastCommitSha": "c80eaa0d48af91f90547e9b0b15d0221110e60f1",
   "status": "active",
-  "accomplishment": "Completed Waves 3–5 plus Atlases port: 121 tests passing, all validated against MATLAB R2024b.",
+  "accomplishment": "Ported loadsrf with bundled fsaverage/hcp surface data converted to .npz; 130 tests passing.",
   "last_session_summary": {
     "completed": [
-      "Ported Waves 3–5 and Atlases (121 tests, MATLAB-validated), wrote PORTING_ISSUES.md report"
+      "Added proper user-facing README with examples, module map, and conventions",
+      "Ported loadsrf with fsaverage3–7 and hcp surfaces bundled as .npz files"
     ],
     "outstanding": [
-      "Port loadsrf/loadmask (needs bundled fsaverage/hcp surface data files)",
-      "Decide on BayesGLM approach (INLA replacement) and implement"
+      "loadmask (needs fsaverage .annot annotation files), BayesGLM (on hold)"
     ]
   },
   "suggested_next_steps": [
-    "Copy the fsaverage/hcp surface .mat files and port loadsrf/loadmask",
-    "Commit all waves 1–5 + atlases work with a descriptive commit",
-    "Decide on BayesGLM: stub with NotImplementedError or find an INLA replacement"
+    "port loadmask — copy the fsaverage .annot files and implement it",
+    "commit the full port (waves 1–5 + atlases + loadsrf + README)",
+    "decide on BayesGLM: stub with NotImplementedError or find an INLA replacement"
   ],
-  "lastChecked": "2026-06-17T09:00:00.000Z",
-  "updatedAt": "2026-06-17T09:00:00.000Z",
+  "lastChecked": "2026-06-17T09:21:06.000Z",
+  "updatedAt": "2026-06-17T09:21:06.000Z",
   "name": "statbrainz_py",
   "path": "/Users/samd/Documents/Code/Packages/Python/statbrainz_py",
   "priority": "high",

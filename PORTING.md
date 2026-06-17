@@ -97,8 +97,11 @@ DONE surface I/O (via nibabel): read_fs_geometry, freesurfer_read_surf,
 read_annotation, fsannot2mask, fs2surf, gifti2surf, load_gifti, dpvread
 DONE inference/Permutation: spintest (was deferred — needs spin_surface)
 
-TODO surface (need bundled .mat surface data, same pattern as MNI):
-loadsrf, loadmask  -> load fsaverage/hcp surfaces from BrainImages/Surface/*.mat
+DONE surface loaders: loadsrf — validated vs MATLAB (fs5 white: 10242 verts,
+20480 faces, face-area sum 66661.7988; hcp 32492 verts). Surface geometry was
+extracted from the MATLAB .mat files and bundled as compressed .npz (faces
+pre-converted to 0-based) under statbrainz/data/Surface/ (fsaverage3-7 + hcp).
+TODO surface: loadmask -> needs the bilateral annotation files (fsaverage .annot)
 SKIP surface: SurfStatReadSurf / SurfStatReadSurf1 (.obj/.fs readers — nibabel
 covers these formats), mgzwrite (use nibabel mgh writer), fs_smooth (stub)
 

@@ -82,7 +82,7 @@ sense (viewthresh, viewdata, viewbrain, overlay_brain).
 | `spintest` | Inference/Permutation | `spin_surface` (Wave 4 surface). |
 | `perm_tfce`, `real_tfce_clusters`, `perm_cluster`, `localized_csi` | Inference/ClusterInference | Permutation harness; revisit alongside `spintest`. |
 | `histpdf` | Statistics_Functions | Plotting-adjacent; Wave 5. |
-| `loadsrf`, `loadmask` | Surface | Need bundled fsaverage/hcp surface `.mat` files. |
+| `loadmask` | Surface | Needs bundled fsaverage `.annot` (bilateral region) files. |
 
 > Atlases (`getBrainRegionNames`, `get_mask`, `getregion`, `atlas_masks`) are now
 > DONE — the Harvard-Oxford 2mm atlas was bundled into `statbrainz/data/Atlases/`.

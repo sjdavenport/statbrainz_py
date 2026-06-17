@@ -797,8 +797,113 @@
         "role": "assistant",
         "content": "Atlases are done. Let me give the final summary of where the whole port stands.\n\n## Atlases complete — 121 tests passing, validated against MATLAB R2024b\n\n**Ported this round** (`statbrainz.atlases`):\n- `getBrainRegionNames`, `get_mask`, `getregion`, `atlas_masks`\n\n**Data bundled:** copied the Harvard-Oxford cortical + subcortical 2mm atlases and their XMLs into `statbrainz/data/Atlases/HarvardOxford/` (~70KB total — the focused subset that covers the default code paths). The pyproject `force-include` already ships the whole `data/` tree.\n\n**Validation:** every function matches MATLAB exactly — 48 cortical region names (Frontal Pole … Occipital Pole), Frontal Pole mask sum **15397**, `getregion` at voxel (39,82,23) → \"Frontal Pole\", `atlas_masks` returns 48 masks with matching sums. I also reimplemented the `findstrings`/`capstr` helpers inline since they're absent from the MATLAB package.\n\n## Full port status\n\n| Area | Module | Status |\n|---|---|---|\n| Statistics leaves, kernels, conv, morphology, mvtstat | `statistics` | ✅ MATLAB-validated |\n| Brain vectorize/convert/MNI + I/O | `brain` | ✅ MATLAB-validated |\n| MHT, clusters, TFCE/TDP, CoPE, perm, spintest | `inference` | ✅ portable core, MATLAB-validated |\n| Surface I/O + ops | `surface` | ✅ MATLAB-validated |\n| Viewing helpers + matplotlib renderers | `viewing` | ✅ helpers validated, renderers rewritten |\n| Atlases (Harvard-Oxford) | `atlases` | ✅ MATLAB-validated |\n\n**121 tests, all passing.** Three living docs: `PORTING.md`, `PORTING_ISSUES.md`, `README.md`.\n\n## What remains (all flagged, none silently skipped)\n\n- **BayesGLM** — still on hold per your earlier instruction (needs the INLA-replacement decision).\n- **`loadsrf`/`loadmask`** — need bundled fsaverage/hcp surface `.mat` files.\n- **3D surface plotting** (`srfplot`, `cope_display`) — would be a nilearn/matplotlib rewrite.\n- **Genuinely unportable** (broken/missing-dep/external/script) — catalogued in `PORTING_ISSUES.md`.\n\nNothing is committed yet (per your instructions). Want me to tackle BayesGLM now, do the surface-data copy for `loadsrf`/`loadmask`, or stop here?",
         "timestamp": "2026-06-17T08:54:46.918Z"
+      },
+      {
+        "role": "user",
+        "content": "add a readme",
+        "timestamp": "2026-06-17T08:57:35.985Z"
+      },
+      {
+        "role": "assistant",
+        "content": "There's already a README.md that I've been updating through the port. Let me check its current state and decide whether you want it expanded into a fuller, user-facing README.",
+        "timestamp": "2026-06-17T08:57:40.163Z"
+      },
+      {
+        "role": "assistant",
+        "content": "A README already exists (I've kept it current through the port). I'll rewrite it into a proper user-facing README — with a feature overview, usage examples, the module map, data/optional-deps notes, and testing — rather than the running \"ported so far\" list it currently is. The status line said \"Waves 1 & 2\" but we're actually through all areas, so it's also out of date.\n\nLet me verify a couple of the example snippets work before putting them in the README, so I don't ship broken examples.",
+        "timestamp": "2026-06-17T08:57:47.216Z"
+      },
+      {
+        "role": "assistant",
+        "content": "All examples run. Now let me write the proper README.",
+        "timestamp": "2026-06-17T08:58:20.023Z"
+      },
+      {
+        "role": "assistant",
+        "content": "I accidentally left a stray closing ` ``` ` at the end. Let me fix that and check there's a LICENSE file to reference.",
+        "timestamp": "2026-06-17T08:58:47.817Z"
+      },
+      {
+        "role": "assistant",
+        "content": "There's no LICENSE file — the README references one that doesn't exist, and `pyproject.toml` also says `license = { text = \"See LICENSE\" }`. The MATLAB repo has a LICENSE; let me check it and either copy it over or adjust the reference. I shouldn't invent a license.",
+        "timestamp": "2026-06-17T08:58:56.743Z"
+      },
+      {
+        "role": "assistant",
+        "content": "The upstream uses a custom \"SJD SOFTWARE LICENSE\" by the same author (you). Since this is your port of your own package, the right move is to carry the same license over rather than reference a missing file. Let me copy it.",
+        "timestamp": "2026-06-17T08:59:02.345Z"
+      },
+      {
+        "role": "assistant",
+        "content": "Now the README's `LICENSE` link resolves. Let me do a final verification that the README renders sensibly (no leftover markdown issues) and the full test suite still passes.",
+        "timestamp": "2026-06-17T09:03:23.455Z"
+      },
+      {
+        "role": "assistant",
+        "content": "Done. The README is rewritten as a proper user-facing document, and I added the missing LICENSE it referenced.\n\n## What I did\n\n**Rewrote `README.md`** from the running \"ported so far\" changelog into a real README:\n- One-paragraph overview of what the package does\n- Install instructions (core vs. `viz`/`test` extras)\n- A module-map table (the 6 submodules and what's in each)\n- **Quick-start examples** — volumetric (smoothing, t-stats, FDR, cluster/TFCE, CoPE sets, atlas lookups) and surface — all of which I **ran first to confirm they work**, so the snippets aren't broken\n- A conventions section flagging the 1-based/column-major indexing (and the surface 0-based-faces exception) and that visualization isn't 1:1\n- Pointers to `PORTING.md` and `PORTING_ISSUES.md`\n\n**Added `LICENSE`** — the README and `pyproject.toml` both referenced a `LICENSE` file that didn't exist. Rather than invent one, I carried over the upstream SJD Software License (same author), so the reference now resolves.\n\n121 tests still pass; top-level docs are now `README.md`, `PORTING.md`, `PORTING_ISSUES.md`, `LICENSE`, `pyproject.toml`.\n\nNote: I fixed a stray closing code-fence I'd initially left at the end of the README. Nothing is committed (per your instructions). Want me to commit the work now, or keep going on BayesGLM / `loadsrf`?",
+        "timestamp": "2026-06-17T09:03:58.446Z"
+      },
+      {
+        "role": "user",
+        "content": "what's up with loadsrf?",
+        "timestamp": "2026-06-17T09:04:41.629Z"
+      },
+      {
+        "role": "assistant",
+        "content": "`loadsrf` is a convenience loader for standard surfaces (fsaverage / HCP). I flagged it as deferred because it loads bundled surface data we haven't copied. Let me re-read the source and check what data it actually needs, so I can tell you concretely what's blocking it.",
+        "timestamp": "2026-06-17T09:04:48.556Z"
+      },
+      {
+        "role": "assistant",
+        "content": "Now I have the full picture. Here's what's up with `loadsrf`.\n\n## What `loadsrf` does\n\nIt's a one-line convenience loader: `loadsrf('fs5', 'white')` returns a bilateral `srf` (with `.lh`/`.rh`) for a standard template surface. It has three branches:\n\n1. **`'bert'`** — hard-coded to a Windows path on the original author's machine (`C:\\Users\\12SDa\\...`). Dead for anyone else; not portable.\n2. **`'hcp'`** — loads `BrainImages/Surface/hcp/hcp_32k.mat`.\n3. **`'fs3'`–`'fs7'`** (default `fs5`/`white`) — loads `BrainImages/Surface/fsaverage{N}/{type}.mat`, where type ∈ {white, pial, sphere, inflated}.\n\n## Why it's blocked\n\nThe function itself is trivial to port — it's pure data-loading. The blocker is **the surface data lives in `.mat` files that aren't in the Python package**, and two specifics make it more than a copy-paste:\n\n- **It's a lot of data.** The full set (fs3–fs7 × 4 types + hcp) is ~**50 MB**, dominated by fsaverage6 (~7 MB each) and fsaverage7 (~28 MB total). fsaverage5 — the default — is ~1.7 MB for all four types.\n- **The `.mat` files store a custom `srf` struct**, not raw geometry. I'd load them with `scipy.io.loadmat` and unpack into the Python `srf` dict (`vertices`, `faces`, `nvertices`, `nfaces`). The HCP one nests `.lh`/`.rh`. I verified the readers exist; I just need to handle the struct unpacking and the MATLAB **1-based → 0-based face** conversion on load.\n\nSo it's not \"hard,\" it's a **data-bundling + decision** item, exactly like the MNI/atlas copies. The question is how much to bundle.",
+        "timestamp": "2026-06-17T09:05:05.392Z"
+      },
+      {
+        "role": "assistant",
+        "content": "Good call — `.npy`/`.npz` is much better than shipping MATLAB `.mat` files: smaller, no `scipy.io.loadmat` struct-unpacking at runtime, and faces pre-converted to 0-based. I'll convert everything (fsaverage3–7 + hcp) once into `.npz` files, then port `loadsrf` to read those.\n\nFirst let me inspect the `.mat` struct layout so I unpack it correctly.",
+        "timestamp": "2026-06-17T09:15:28.262Z"
+      },
+      {
+        "role": "assistant",
+        "content": "The structure is clear: each surface is `{lh, rh}`, each hemi has `vertices` (N×3 float), `faces` (M×3, **1-based** — min 1, max 10242), `nvertices`, `nfaces`. Faces need `-1` for 0-based Python. Let me check the hcp `.mat` (it may differ since `loadsrf` loads it directly without setting `.hemi`).",
+        "timestamp": "2026-06-17T09:15:40.972Z"
+      },
+      {
+        "role": "assistant",
+        "content": "Same `{lh, rh}` layout (hcp also has a `hemi` field, harmless). Now let me write a conversion script that walks all the `.mat` files and writes `.npz` files (vertices + 0-based faces per hemi) into `statbrainz/data/Surface/`.",
+        "timestamp": "2026-06-17T09:16:30.512Z"
+      },
+      {
+        "role": "assistant",
+        "content": "All converted — 35 MB total (compressed `.npz`, down from ~50 MB of `.mat`). Now let me port `loadsrf` to read these `.npz` files, returning the standard `srf` dict. I'll also verify the loaded geometry matches MATLAB.",
+        "timestamp": "2026-06-17T09:17:34.743Z"
+      },
+      {
+        "role": "assistant",
+        "content": "Now validate against MATLAB — load `fs5/white` in both and compare vertices/faces, and confirm a downstream op (face area) matches.",
+        "timestamp": "2026-06-17T09:17:59.822Z"
+      },
+      {
+        "role": "assistant",
+        "content": "`loadsrf` matches MATLAB exactly: 10242 vertices / 20480 faces, identical first vertex coords, identical first face (1-based `[1, 2565, 2563]`), face-area sum **66661.7988**, and hcp loads 32492 vertices. The 1-based→0-based face conversion round-trips correctly.\n\nLet me write tests and run the suite.",
+        "timestamp": "2026-06-17T09:18:27.542Z"
+      },
+      {
+        "role": "assistant",
+        "content": "My test assumption was wrong — edge-averaging smoothing does **not** conserve total mass (it's a weighted local average, not a diffusion that preserves the sum). That's correct behavior, not a bug. The 129 other tests pass including the MATLAB-validated `loadsrf` checks. Let me fix the bad assertion.",
+        "timestamp": "2026-06-17T09:20:21.357Z"
+      },
+      {
+        "role": "assistant",
+        "content": "All 130 tests pass. Let me update the docs to reflect `loadsrf` being done.",
+        "timestamp": "2026-06-17T09:20:45.863Z"
+      },
+      {
+        "role": "assistant",
+        "content": "Done. Here's the full answer on `loadsrf`.\n\n## What `loadsrf` was — and what I did about it\n\n`loadsrf` is a one-line convenience loader returning a standard bilateral template surface (`loadsrf('fs5', 'white')` → `{lh, rh}`). It wasn't blocked by anything *hard* — it was blocked because it loads bundled surface geometry from `.mat` files that weren't in the Python package. Two of its three branches were also problematic in the original:\n- **`'bert'`** — hard-coded to a Windows path on the original author's machine; not portable (I raise a clear `NotImplementedError` pointing to `fs2surf`).\n- **`'hcp'` / `'fs3'`–`'fs7'`** — load `.mat` surface structs.\n\n**Per your call, I extracted the geometry and stored it as `.npy`/`.npz`** rather than shipping `.mat`:\n- Converted all fsaverage3–7 (white/pial/sphere/inflated) + hcp into compressed `.npz` under `statbrainz/data/Surface/`, with **faces pre-converted to 0-based** (the package convention).\n- Result: **36 MB** (down from ~50 MB of `.mat`), and no `scipy.io.loadmat` struct-unpacking at runtime — `loadsrf` just `np.load`s and builds the `srf` dict.\n\n**Validated against MATLAB R2024b:** `fs5/white` matches exactly — 10242 vertices, 20480 faces, identical first vertex and first face, face-area sum **66661.7988**; hcp loads 32492 vertices. The loaded surfaces feed straight into the other surface ops (smoothing, area, adjacency).\n\n**130 tests, all passing.**\n\nThe only remaining surface item is **`loadmask`**, which needs the fsaverage `.annot` annotation files (region labels) rather than geometry — a separate, smaller data-copy if you want it.\n\nStill on hold: **BayesGLM** (your earlier instruction). Nothing committed yet. Want `loadmask` next, BayesGLM, or shall I stop here?",
+        "timestamp": "2026-06-17T09:21:06.371Z"
       }
     ],
-    "updatedAt": "2026-06-17T08:54:47.365Z"
+    "updatedAt": "2026-06-17T09:21:06.821Z"
   }
 ]

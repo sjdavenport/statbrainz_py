@@ -13,6 +13,7 @@ from .core import (
     resample_srf,
 )
 from .ops import srf_dilate_mask, srf_contour, srf_noise, spin_surface
+from .loaders import loadsrf
 from .io import (
     read_fs_geometry,
     freesurfer_read_surf,
@@ -39,6 +40,7 @@ __all__ = [
     "srf_contour",
     "srf_noise",
     "spin_surface",
+    "loadsrf",
     "read_fs_geometry",
     "freesurfer_read_surf",
     "fs2surf",
