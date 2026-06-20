@@ -22,9 +22,7 @@ test = ["pytest>=7.0"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["statbrainz"]
-
-[tool.hatch.build.targets.wheel.force-include]
-"statbrainz/data" = "statbrainz/data"
+artifacts = ["statbrainz/data/**"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

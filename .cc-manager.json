@@ -1,23 +1,20 @@
 {
-  "lastCommitSha": "c80eaa0d48af91f90547e9b0b15d0221110e60f1",
+  "lastCommitSha": "79777652981d60f2a4436acae5652b82aba998d9",
   "status": "active",
-  "accomplishment": "Ported loadsrf with bundled fsaverage/hcp surface data converted to .npz; 130 tests passing.",
+  "accomplishment": "Bundled HCP WM surface data into the package and made the confidence regions notebook fully self-contained (no MATLAB repo dependency).",
   "last_session_summary": {
     "completed": [
-      "Added proper user-facing README with examples, module map, and conventions",
-      "Ported loadsrf with fsaverage3–7 and hcp surfaces bundled as .npz files"
+      "Made a Python Jupyter notebook version of the confidence regions tutorial that runs end-to-end",
+      "Bundled the HCP WM mean/std maps into the package so the notebook needs no MATLAB repo"
     ],
-    "outstanding": [
-      "loadmask (needs fsaverage .annot annotation files), BayesGLM (on hold)"
-    ]
+    "outstanding": []
   },
   "suggested_next_steps": [
-    "port loadmask — copy the fsaverage .annot files and implement it",
-    "commit the full port (waves 1–5 + atlases + loadsrf + README)",
-    "decide on BayesGLM: stub with NotImplementedError or find an INLA replacement"
+    "commit the new untracked files (new CopeSets functions, Surface/Plotting, hcpWM_surface.npz, notebook)",
+    "add tests for the new srfplot, srf_colour, srf_fdr_crs, srf_scb2cope, srf_color_crs functions",
+    "port another tutorial (e.g. cluster inference or volumetric)"
   ],
-  "lastChecked": "2026-06-17T09:21:06.000Z",
-  "updatedAt": "2026-06-17T09:21:06.000Z",
+  "updatedAt": "2026-06-19T15:15:00.000Z",
   "name": "statbrainz_py",
   "path": "/Users/samd/Documents/Code/Packages/Python/statbrainz_py",
   "priority": "high",
