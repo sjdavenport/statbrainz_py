@@ -1,5 +1,5 @@
 {
-  "lastCommitSha": "79777652981d60f2a4436acae5652b82aba998d9",
+  "lastCommitSha": "d0e88b2082c15046702fc9f544567602bfb495d9",
   "status": "active",
   "accomplishment": "Bundled HCP WM surface data into the package and made the confidence regions notebook fully self-contained (no MATLAB repo dependency).",
   "last_session_summary": {
