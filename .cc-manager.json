@@ -1,5 +1,5 @@
 {
-  "lastCommitSha": "d0e88b2082c15046702fc9f544567602bfb495d9",
+  "lastCommitSha": "9de698ff9ca54f43eae73eb49300d74e992de2e2",
   "status": "active",
   "accomplishment": "Bundled HCP WM surface data into the package and made the confidence regions notebook fully self-contained (no MATLAB repo dependency).",
   "last_session_summary": {
@@ -19,5 +19,6 @@
   "path": "/Users/samd/Documents/Code/Packages/Python/statbrainz_py",
   "priority": "high",
   "group": "Python",
-  "purpose": "Python port of the StatBrainz MATLAB package for brain imaging statistics"
+  "purpose": "Python port of the StatBrainz MATLAB package for brain imaging statistics",
+  "lastContentHash": "986f0679ef25554340abc42ffe04b550886e557d"
 }
