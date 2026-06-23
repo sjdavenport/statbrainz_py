@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv --version)",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab -batch ' *)",
+      "Bash(grep -v \"^$\")",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab -batch \"run\\('/tmp/sb_validate.m'\\)\")",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab -batch \"run\\('/tmp/sb_validate4.m'\\)\")",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab -batch \"run\\('/tmp/sb_v5.m'\\)\")",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab -batch \"run\\('/tmp/sb_v6.m'\\)\")",
+      "Bash(awk '{print $5, $9}')",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab -batch \"run\\('/tmp/sb_v7.m'\\)\")",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab -batch \"run\\('/tmp/sb_v8.m'\\)\")",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab -batch \"run\\('/tmp/sb_v9.m'\\)\")",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab -batch \"run\\('/tmp/sb_v11.m'\\)\")",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab -batch \"run\\('/tmp/sb_surf.m'\\)\")",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab -batch \"run\\('/tmp/sb_view.m'\\)\")",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab -batch \"run\\('/tmp/sb_atlas.m'\\)\")",
+      "Bash(python3 -)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git merge *)",
+      "Bash(python3 -c \"import os; print\\([d for d in os.listdir\\('statbrainz'\\) if os.path.isdir\\('statbrainz/'+d\\) and not d.startswith\\('_'\\) and d!='data']\\)\")",
+      "Bash(python3 -c \"import os; print\\(sorted\\([d for d in os.listdir\\('statbrainz'\\) if os.path.isdir\\('statbrainz/'+d\\) and not d.startswith\\('_'\\) and d!='data']\\)\\)\")",
+      "Bash(git worktree *)",
+      "Bash(git branch *)"
+    ]
+  }
+}
