@@ -38,7 +38,11 @@ from statbrainz.Inference.ClusterInference.ClusterTDP.cluster_tp2tdp import clus
 from statbrainz.Inference.ClusterInference.ClusterTDP.clustertdp import clustertdp
 from statbrainz.Inference.ClusterInference.ClusterTDP.clustertp_lowerbound import clustertp_lowerbound
 from statbrainz.Inference.ClusterInference.Clusterextent.index2mask import index2mask
+from statbrainz.Inference.ClusterInference.Clusterextent.localized_csi import localized_csi
+from statbrainz.Inference.ClusterInference.Clusterextent.perm_cluster import perm_cluster
 from statbrainz.Inference.ClusterInference.TFCE.LCE import LCE
+from statbrainz.Inference.ClusterInference.TFCE.perm_tfce import perm_tfce
+from statbrainz.Inference.ClusterInference.TFCE.real_tfce_clusters import real_tfce_clusters
 from statbrainz.Inference.ClusterInference.TFCE.tfce import tfce
 from statbrainz.Inference.ClusterInference.TFCE.voxLCE import voxLCE
 from statbrainz.Inference.ClusterInference.bestclusterslice import bestclusterslice
@@ -106,6 +110,7 @@ from statbrainz.Surface.ReadSurfaceFiles.fs2surf import fs2surf
 from statbrainz.Surface.ReadSurfaceFiles.fsannot2mask import fsannot2mask
 from statbrainz.Surface.ReadSurfaceFiles.gifti.load_gifti import load_gifti
 from statbrainz.Surface.ReadSurfaceFiles.gifti2surf import gifti2surf
+from statbrainz.Surface.ReadSurfaceFiles.loadmask import loadmask
 from statbrainz.Surface.ReadSurfaceFiles.read_fs_geometry import read_fs_geometry
 from statbrainz.Surface.Plotting.srf_colour import srf_colour
 from statbrainz.Surface.Plotting.srfplot import srfplot
@@ -124,4 +129,4 @@ from statbrainz.Surface.srf_face_area import srf_face_area
 from statbrainz.Surface.srf_fwhm2niters import srf_fwhm2niters
 from statbrainz.Surface.srf_noise import srf_noise
 
-__all__ = ['make_srf', 'viewthresh_image', 'Gker', 'GkerMV', 'GkerMV2', 'Gkerderiv', 'Gkerderiv2', 'LCE', 'SurfStatEdg', 'SurfStatSmooth', 'Xgen2', 'adjacency_matrix', 'apower', 'asinh_data_trans', 'asinh_trans', 'atlas_masks', 'bernstd', 'bestclusterslice', 'cluster_im', 'cluster_tp2tdp', 'clustertdp', 'clustertp_lowerbound', 'colorRegion', 'combine_brains', 'convind', 'convindall', 'custom_colormap', 'data_dir', 'dilate_mask', 'distbn2pval', 'doubleim', 'dpvread', 'expand2mask', 'fast_conv', 'fdp_calc', 'fdrBH', 'fdr_crs', 'fdrthresh', 'filesindir', 'freesurfer_read_surf', 'fs2surf', 'fsannot2mask', 'fwhm2sigma', 'gen_mask', 'gen_noise', 'getBrainRegionNames', 'getMNImask', 'get_mask', 'get_pivotal_stats', 'getlargestcluster', 'getregion', 'gifti2surf', 'gmcdf', 'gmrnd', 'graph_cc', 'imBH', 'imBH_data', 'imgload', 'imgsave', 'index2mask', 'inverse_linear_template', 'lcdf', 'linear_template', 'load_gifti', 'loader', 'loadsrf', 'localized_vi', 'mask_bndry', 'mask_bounds', 'modul', 'mvtstat', 'mvtstat_dep', 'nan2zero', 'nifti_type', 'numOfConComps', 'overlay_brain', 'pad_im', 'peak2circle', 'perm_thresh', 'plane2index', 'prewhiten', 'pval2tstat', 'read_annotation', 'read_fs_geometry', 'region_bndry2D', 'resample_srf', 'resample_srf_nn', 'rkval', 'sigma2fwhm', 'smooth_surface', 'spatialBH', 'spin_surface', 'spintest', 'square_signal', 'srf_color_crs', 'srf_colour', 'srf_contour', 'srf_dilate_mask', 'srf_face_area', 'srf_fdr_crs', 'srf_fwhm2niters', 'srf_noise', 'srf_scb2cope', 'srfplot', 'statbrainz_maindir', 'tfce', 'tstat2pval', 'unwrap', 'vec_data', 'viewbrain', 'viewdata', 'viewthresh', 'voxLCE', 'voxinMNI', 'zero2nan']
+__all__ = ['make_srf', 'viewthresh_image', 'Gker', 'GkerMV', 'GkerMV2', 'Gkerderiv', 'Gkerderiv2', 'LCE', 'SurfStatEdg', 'SurfStatSmooth', 'Xgen2', 'adjacency_matrix', 'apower', 'asinh_data_trans', 'asinh_trans', 'atlas_masks', 'bernstd', 'bestclusterslice', 'cluster_im', 'cluster_tp2tdp', 'clustertdp', 'clustertp_lowerbound', 'colorRegion', 'combine_brains', 'convind', 'convindall', 'custom_colormap', 'data_dir', 'dilate_mask', 'distbn2pval', 'doubleim', 'dpvread', 'expand2mask', 'fast_conv', 'fdp_calc', 'fdrBH', 'fdr_crs', 'fdrthresh', 'filesindir', 'freesurfer_read_surf', 'fs2surf', 'fsannot2mask', 'fwhm2sigma', 'gen_mask', 'gen_noise', 'getBrainRegionNames', 'getMNImask', 'get_mask', 'get_pivotal_stats', 'getlargestcluster', 'getregion', 'gifti2surf', 'gmcdf', 'gmrnd', 'graph_cc', 'imBH', 'imBH_data', 'imgload', 'imgsave', 'index2mask', 'inverse_linear_template', 'lcdf', 'linear_template', 'load_gifti', 'loadmask', 'loader', 'loadsrf', 'localized_csi', 'localized_vi', 'mask_bndry', 'mask_bounds', 'modul', 'mvtstat', 'mvtstat_dep', 'nan2zero', 'nifti_type', 'numOfConComps', 'overlay_brain', 'pad_im', 'peak2circle', 'perm_cluster', 'perm_thresh', 'perm_tfce', 'plane2index', 'prewhiten', 'pval2tstat', 'read_annotation', 'read_fs_geometry', 'real_tfce_clusters', 'region_bndry2D', 'resample_srf', 'resample_srf_nn', 'rkval', 'sigma2fwhm', 'smooth_surface', 'spatialBH', 'spin_surface', 'spintest', 'square_signal', 'srf_color_crs', 'srf_colour', 'srf_contour', 'srf_dilate_mask', 'srf_face_area', 'srf_fdr_crs', 'srf_fwhm2niters', 'srf_noise', 'srf_scb2cope', 'srfplot', 'statbrainz_maindir', 'tfce', 'tstat2pval', 'unwrap', 'vec_data', 'viewbrain', 'viewdata', 'viewthresh', 'voxLCE', 'voxinMNI', 'zero2nan']

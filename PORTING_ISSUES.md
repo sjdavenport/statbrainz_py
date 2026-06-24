@@ -79,10 +79,23 @@ sense (viewthresh, viewdata, viewbrain, overlay_brain).
 
 | Function | Area | Waiting on |
 |---|---|---|
-| `spintest` | Inference/Permutation | `spin_surface` (Wave 4 surface). |
-| `perm_tfce`, `real_tfce_clusters`, `perm_cluster`, `localized_csi` | Inference/ClusterInference | Permutation harness; revisit alongside `spintest`. |
-| `histpdf` | Statistics_Functions | Plotting-adjacent; Wave 5. |
-| `loadmask` | Surface | Needs bundled fsaverage `.annot` (bilateral region) files. |
+| `histpdf` | Statistics_Functions | Plotting-adjacent (wraps MATLAB `histogram`); Wave 5/viewing. Numerical dep `fast_conv` is ported, so a numpy rewrite is trivial when wanted. |
+
+> **Wave 6 — now DONE (no longer deferred):**
+> - `perm_tfce`, `real_tfce_clusters`, `perm_cluster`, `localized_csi`
+>   (Inference/ClusterInference) — sign-flip permutation cluster/TFCE inference.
+>   RNG is numpy-based (seedable via `rng=`); the permutation stream differs
+>   from MATLAB by construction, but the deterministic structure and the
+>   observed-statistic entries are validated.
+> - `loadmask` (Surface) — fsaverage3-7 `lh/rh.aparc.annot` bundled under
+>   `statbrainz/data/Surface/fsaverageN/`; returns `{'lh','rh'}` boolean masks.
+>
+> **Confirmed NOT portable (verified against the real `.m` source):**
+> - `peakgen` (Statistics_Functions/Signal_generation) — calls `SpheroidSignal`,
+>   an RFTtoolbox function present in **zero** files of the StatBrainz package.
+> - `fs_smooth` (Surface) — the MATLAB function body is empty (a stub).
+>
+> `spintest` is **already ported** (Wave 4, after `spin_surface`).
 
 > Atlases (`getBrainRegionNames`, `get_mask`, `getregion`, `atlas_masks`) are now
 > DONE — the Harvard-Oxford 2mm atlas was bundled into `statbrainz/data/Atlases/`.
@@ -91,4 +104,4 @@ sense (viewthresh, viewdata, viewbrain, overlay_brain).
 
 ---
 
-_Last updated after Wave 3. See `PORTING.md` for the full wave-by-wave status._
+_Last updated after Wave 6. See `PORTING.md` for the full wave-by-wave status._

@@ -92,8 +92,15 @@ NOT PORTABLE (broken / missing upstream deps in the MATLAB source itself):
 - bh_control, permutation_power, test_ica -> demo SCRIPTS, not functions.
 - clustertdp 'heuristic'/'greedy', ctp_scores, fgreedy, cluster2csv,
   ctp_extract_score -> dispatch/parse EXTERNAL jobs (fgreedy CLI). Skipped.
-- perm_tfce, real_tfce_clusters, perm_cluster, localized_csi -> TODO (need the
-  permutation harness; revisit after surface so spintest can come too).
+DONE inference/ClusterInference permutation harness (Wave 6): perm_tfce,
+  real_tfce_clusters, perm_cluster, localized_csi — sign-flip permutation
+  cluster/TFCE inference; depend only on already-ported helpers (vec_data,
+  unwrap, nan2zero, mvtstat, tfce, numOfConComps, cluster_im, distbn2pval,
+  loader). RNG uses numpy (np.random.Generator, seedable via `rng=`), so the
+  permutation stream differs from MATLAB by construction; observed-statistic
+  (non-random) entries and structure validated. perm_tfce store_perms keeps the
+  MATLAB quirk where column 0 holds the raw t-stat and later columns the TFCE
+  stat.
 
 TODO inference/Permutation: spintest (needs spin_surface -> Wave 4)
 TODO inference/BayesGLM: fit_classicalglm, fit_bayesglm, bayespw, runbayesglm
@@ -116,9 +123,24 @@ DONE surface loaders: loadsrf — validated vs MATLAB (fs5 white: 10242 verts,
 20480 faces, face-area sum 66661.7988; hcp 32492 verts). Surface geometry was
 extracted from the MATLAB .mat files and bundled as compressed .npz (faces
 pre-converted to 0-based) under statbrainz/data/Surface/ (fsaverage3-7 + hcp).
-TODO surface: loadmask -> needs the bilateral annotation files (fsaverage .annot)
+DONE surface: loadmask (Wave 6) — fsaverage3-7 lh/rh.aparc.annot bundled under
+statbrainz/data/Surface/fsaverageN/; reads via fsannot2mask. Returns {'lh','rh'}
+boolean masks. Vertex counts validated (fs5: 10242/hemi).
 SKIP surface: SurfStatReadSurf / SurfStatReadSurf1 (.obj/.fs readers — nibabel
-covers these formats), mgzwrite (use nibabel mgh writer), fs_smooth (stub)
+covers these formats), mgzwrite (use nibabel mgh writer), fs_smooth (empty stub
+in the MATLAB source — nothing to port)
+
+### Wave 6 — remaining portable leaves  [STATUS: DONE]
+DONE inference cluster permutation harness: perm_tfce, real_tfce_clusters,
+  perm_cluster, localized_csi (see Wave 3 note above).
+DONE surface: loadmask (see Wave 4 note above).
+NOT PORTABLE (confirmed against the real .m source):
+- peakgen (Signal_generation) -> calls SpheroidSignal, an RFTtoolbox function
+  defined NOWHERE in the StatBrainz package. Cannot reproduce faithfully.
+- fs_smooth (Surface) -> the MATLAB body is empty (a stub). Nothing to port.
+- histpdf (Statistics/Plotting) -> wraps MATLAB's `histogram` object + a plot;
+  plotting-adjacent. fast_conv (its only numerical dep) is ported, so a numpy
+  rewrite is trivial if wanted — left out pending the viewing decision.
 
 ### Wave 5 — viewing  [STATUS: core DONE — helpers validated vs MATLAB]
 DONE viewing helpers (pure arrays, 1:1, statbrainz.viewing.helpers):
